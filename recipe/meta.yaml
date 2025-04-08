@@ -18,7 +18,6 @@ build:
   number: 3
   skip: true  # [cuda_compiler_version == "None"]
   skip: true  # [cuda_compiler_version == "11.8"]
-  skip: true  # [win]
 
 requirements:
   build:
