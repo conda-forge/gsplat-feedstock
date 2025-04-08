@@ -1,13 +1,13 @@
 {% set name = "gsplat" %}
-{% set version = "1.4.0" %}
+{% set version = "1.5.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/gsplat-{{ version }}.tar.gz
-    sha256: 8aa81a785e0daf3ed60d0b9930a56c0f337280e6989351d1f1b74e21cf190160
+  - url: https://github.com/nerfstudio-project/{{ name }}/archive/v{{ version }}.tar.gz
+    sha256: f16443bd3afb83f4f68e2267d876fa7367dc8405f2973ebaa6d417487c69e7be
     patches:
       - patches/0001-Remove-ninja-from-install-requirements.patch
   - url: https://github.com/g-truc/glm/archive/33b4a621a697a305bc3a7610d290677b96beb181.tar.gz
