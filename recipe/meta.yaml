@@ -1,5 +1,5 @@
 {% set name = "gsplat" %}
-{% set version = "1.5.0" %}
+{% set version = "1.5.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/nerfstudio-project/{{ name }}/archive/v{{ version }}.tar.gz
-    sha256: f16443bd3afb83f4f68e2267d876fa7367dc8405f2973ebaa6d417487c69e7be
+    sha256: f28ee2b5fd113dc4efc80dde2ea61bd069363636f3497aba0795285ccf73924a
     patches:
       - patches/0001-Remove-ninja-from-install-requirements.patch
   - url: https://github.com/g-truc/glm/archive/33b4a621a697a305bc3a7610d290677b96beb181.tar.gz
@@ -15,7 +15,7 @@ source:
     folder: gsplat/cuda/csrc/third_party/glm
 
 build:
-  number: 1
+  number: 0
   skip: true  # [cuda_compiler_version == "None"]
   skip: true  # [cuda_compiler_version == "11.8"]
   skip: true  # [win]
