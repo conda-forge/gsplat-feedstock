@@ -1,5 +1,5 @@
 {% set name = "gsplat" %}
-{% set version = "1.5.1" %}
+{% set version = "1.5.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/nerfstudio-project/{{ name }}/archive/v{{ version }}.tar.gz
-    sha256: f28ee2b5fd113dc4efc80dde2ea61bd069363636f3497aba0795285ccf73924a
+    sha256: 3f448c8fb4025fa2ea66768f0ffcf2c208e42f8ec5cb29ed80f9fdd425812764
     patches:
       - patches/0001-Remove-ninja-from-install-requirements.patch
   - url: https://github.com/g-truc/glm/archive/33b4a621a697a305bc3a7610d290677b96beb181.tar.gz
