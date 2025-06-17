@@ -1,6 +1,15 @@
 # https://github.com/conda-forge/conda-forge-pinning-feedstock/blob/main/recipe/conda_build_config.yaml
 
-# c_compiler:
-#   - vs2022                     # [win]
-# cxx_compiler:
-#   - vs2022                     # [win]
+# Enforce CUDA 12.8 for Windows
+cuda_compiler:          # [win]
+  - None                # [win]
+  - cuda-nvcc           # [win]
+  - cuda-nvcc           # [win]
+  - cuda-nvcc           # [win]
+  - cuda-nvcc           # [win]
+cuda_compiler_version:  # [win]
+  - None                # [win]
+  - 12.4                # [win]
+  - 12.6                # [win]
+  - 12.8                # [win]
+  - 12.9                # [win]
