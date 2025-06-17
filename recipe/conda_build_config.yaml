@@ -1,0 +1,6 @@
+# https://github.com/conda-forge/conda-forge-pinning-feedstock/blob/main/recipe/conda_build_config.yaml
+
+cuda_compiler:          # [win]
+  - cuda-nvcc           # [win]
+cuda_compiler_version:  # [win]
+  - 12.6                # [win]
