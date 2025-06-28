@@ -15,10 +15,9 @@ source:
     folder: gsplat/cuda/csrc/third_party/glm
 
 build:
-  number: 1
+  number: 2
   skip: true  # [cuda_compiler_version == "None"]
   skip: true  # [cuda_compiler_version == "11.8"]
-  skip: true  # [win]
 
 requirements:
   build:
@@ -27,8 +26,8 @@ requirements:
     - {{ compiler("cuda") }}
     - {{ stdlib("c") }}
     - cmake
-    - cuda-nvcc
-    - cuda-toolkit
+    - cuda-nvcc {{ cuda_compiler_version }}
+    - cuda-toolkit {{ cuda_compiler_version }}  # [linux]
     - ninja
     - pip         # [target_platform != build_platform]
     - pybind11    # [target_platform != build_platform]
@@ -37,8 +36,8 @@ requirements:
     - setuptools  # [target_platform != build_platform]
   host:
     - cuda-version {{ cuda_compiler_version }}
-    - cuda-nvcc
-    - cuda-toolkit
+    - cuda-nvcc {{ cuda_compiler_version }}
+    - cuda-toolkit {{ cuda_compiler_version }}  # [linux]
     - jaxtyping
     - rich >=12
     - pip
