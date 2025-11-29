@@ -3,4 +3,9 @@
 cuda_compiler:          # [win]
   - cuda-nvcc           # [win]
 cuda_compiler_version:  # [win]
-  - 12.6                # [win]
+  - "12.6"                # [win]
+
+c_compiler:             # [win]
+  - vs2019              # [win]
+cxx_compiler:           # [win]
+  - vs2019              # [win]
