@@ -27,7 +27,7 @@ requirements:
     - {{ stdlib("c") }}
     - cmake
     - cuda-nvcc {{ cuda_compiler_version }}
-    - cuda-toolkit {{ cuda_compiler_version }}  # [linux]
+    - cuda-toolkit {{ cuda_compiler_version }}
     - ninja
     - pip         # [target_platform != build_platform]
     - pybind11    # [target_platform != build_platform]
@@ -37,7 +37,7 @@ requirements:
   host:
     - cuda-version {{ cuda_compiler_version }}
     - cuda-nvcc {{ cuda_compiler_version }}
-    - cuda-toolkit {{ cuda_compiler_version }}  # [linux]
+    - cuda-toolkit {{ cuda_compiler_version }}
     - jaxtyping
     - rich >=12
     - pip
