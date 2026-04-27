@@ -83,6 +83,27 @@ tests:
       imports:
         - gsplat
       pip_check: true
+  - script:
+      # Install these test deps directly from PyPI since they are not yet packaged in conda-forge.
+      - |
+        python -m pip install \
+          torchpq \
+          git+https://github.com/fraunhoferhhi/PLAS.git
+      # These tests run only if a GPU is available.
+      # Mainly used when the recipe is built locally since CI has no GPUs.
+      - pytest tests/
+    files:
+      source:
+        - assets/
+        - tests/
+    requirements:
+      run:
+        - cupy
+        - imageio
+        - nerfacc
+        - pip
+        - pytest
+        - python
 
 about:
   summary: CUDA accelerated rasterization of gaussian splatting
