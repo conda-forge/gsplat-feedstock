@@ -1,0 +1,14 @@
+--- tests/test_2dgs.py
++++ tests/test_2dgs.py
+@@ -21,8 +21,9 @@
+     return ret
+
+
+ @pytest.fixture
+-@pytest.mark.skipif(not torch.cuda.is_available(), reason="No CUDA device")
+ def test_data():
++    if not torch.cuda.is_available():
++        pytest.skip("No CUDA device")
+     C = 3
+     N = 1000
+     means = torch.randn(N, 3, device=device)
