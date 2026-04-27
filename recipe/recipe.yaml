@@ -25,7 +25,7 @@ build:
   script:
     - export MAX_JOBS=1
     - export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6;8.9;9.0"
-    - export CUDA_HOME=$BUILD_PREFIX
+    - export CUDA_HOME="$PREFIX"
     - $PYTHON -m pip install . -vv --no-build-isolation --no-deps
   skip:
     - cuda_compiler_version == "None"
@@ -40,7 +40,6 @@ requirements:
     - ${{ compiler("cuda") }}
     - cmake
     - cuda-nvcc
-    - cuda-toolkit
     - ninja
     - if: target_platform != build_platform
       then:
@@ -52,7 +51,7 @@ requirements:
   host:
     - cuda-version ${{ cuda_compiler_version }}.*
     - cuda-nvcc
-    - cuda-toolkit
+    - cuda-cudart-dev
     - jaxtyping
     - rich >=12
     - pip
@@ -60,7 +59,6 @@ requirements:
     - pytorch
     - setuptools
   run:
-    - cuda-cudart
     - jaxtyping
     - numpy
     - python
