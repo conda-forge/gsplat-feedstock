@@ -15,6 +15,8 @@ source:
     sha256: 8a24428b8ea2ce7c3e10fcf5aa20e20fe503b8329c96db797f4eab703729aac3
     patches:
       - patches/0001-Remove-ninja-from-install-requirements.patch
+      - patches/0002-Remove-vendored-glm-from-include-dirs.patch
+      - patches/0003-Fix-pytest-on-python-313.patch
 
 build:
   number: ${{ build_number }}
