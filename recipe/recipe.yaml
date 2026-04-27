@@ -16,10 +16,6 @@ source:
     patches:
       - patches/0001-Remove-ninja-from-install-requirements.patch
 
-  - url: https://github.com/g-truc/glm/archive/33b4a621a697a305bc3a7610d290677b96beb181.tar.gz
-    sha256: fa761b941987933884b0d21d5b86930789061f026ba163d47cebbc5b00be277b
-    target_directory: gsplat/cuda/csrc/third_party/glm
-
 build:
   number: ${{ build_number }}
   script:
@@ -65,6 +61,7 @@ requirements:
     # Host dependencies.
     - cuda-version ${{ cuda_compiler_version }}.*
     - cuda-cudart-dev
+    - glm
     - jaxtyping
     - rich >=12
     - pip
