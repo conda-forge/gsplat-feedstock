@@ -104,6 +104,10 @@ tests:
         - pip
         - pytest
         - python
+        # lapjv (plas dependency) has no wheel for Python 3.12 and 3.13.
+        # Building the sdist requires a compiler.
+        # https://pypi.org/project/lapjv/
+        - ${{ compiler("cxx") }}
 
 about:
   summary: CUDA accelerated rasterization of gaussian splatting
