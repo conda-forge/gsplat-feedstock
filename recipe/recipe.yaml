@@ -31,6 +31,14 @@ build:
     - cuda_compiler_version == "None"
     - osx
     - win
+  # During the build, the dependency scanner may report libcudart from
+  # `targets/<arch>/lib` because conda-forge CUDA keeps the real libraries there
+  # and symlinks them into `<prefix>/lib`. After packaging, the final ELF is
+  # correctly relocated: DT_NEEDED is libcudart.so.12 and the RPATH resolves
+  # to `<prefix>/lib` via `$ORIGIN/../../..`.
+  # dynamic_linking:
+  #   overlinking_behavior: error
+  #   overdepending_behavior: error
 
 requirements:
   build:
@@ -39,7 +47,6 @@ requirements:
     - ${{ compiler("cxx") }}
     - ${{ compiler("cuda") }}
     - cmake
-    - cuda-nvcc
     - ninja
     - if: target_platform != build_platform
       then:
@@ -49,8 +56,14 @@ requirements:
         - pytorch
         - setuptools
   host:
+    # The build process complains about missing cicc binary in the host environment.
+    # That binary is part of the CUDA compiler, therefore we need to have it also here in the host section.
+    # The c and cxx compilers are needed by the cuda compiler.
+    - ${{ compiler("c") }}
+    - ${{ compiler("cxx") }}
+    - ${{ compiler("cuda") }}
+    # Host dependencies.
     - cuda-version ${{ cuda_compiler_version }}.*
-    - cuda-nvcc
     - cuda-cudart-dev
     - jaxtyping
     - rich >=12
