@@ -3,6 +3,7 @@ schema_version: 1
 context:
   name: gsplat
   version: "1.5.3"
+  build_number: 5
 
 package:
   name: ${{ name|lower }}
@@ -20,7 +21,16 @@ source:
     target_directory: gsplat/cuda/csrc/third_party/glm
 
 build:
-  number: 4
+  number: ${{ build_number }}
+  script:
+    - export MAX_JOBS=1
+    - export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6;8.9;9.0"
+    - export CUDA_HOME=$BUILD_PREFIX
+    - $PYTHON -m pip install . -vv --no-build-isolation --no-deps
+  skip:
+    - cuda_compiler_version == "None"
+    - osx
+    - win
 
 requirements:
   build:
