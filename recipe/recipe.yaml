@@ -84,7 +84,8 @@ tests:
         - gsplat
       pip_check: true
   # Skipping aarch64 since the nerfacc conda package does not support this architecture yet.
-  - if: not aarch64
+  # Skipping also testing CUDA13 on linux-64 since nerfacc does not support it yet. 
+  - if: not aarch64 or (cuda_compiler_version != "None" and match(cuda_compiler_version, "<13"))
     then:
       - script:
           # Install these test deps directly from PyPI since they are not yet packaged in conda-forge.
