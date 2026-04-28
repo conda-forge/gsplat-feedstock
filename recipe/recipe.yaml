@@ -21,7 +21,7 @@ source:
 build:
   number: ${{ build_number }}
   script:
-    - export MAX_JOBS="3"	
+    - export MAX_JOBS="3"
     # The following should match all the archs supported by conda-forge's pytorch,
     # including the +PTX modifier added to the most recent version.
     # pixi exec --spec "pytorch=*=cuda12*" python -c "import torch; print(torch.cuda.get_arch_list())"
@@ -91,7 +91,7 @@ tests:
         - gsplat
       pip_check: true
   # Skipping aarch64 since the nerfacc conda package does not support this architecture yet.
-  # Skipping also testing CUDA13 on linux-64 since nerfacc does not support it yet. 
+  # Skipping also testing CUDA13 on linux-64 since nerfacc does not support it yet.
   - if: not aarch64 and (cuda_compiler_version != "None" and match(cuda_compiler_version, "<13"))
     then:
       - script:
