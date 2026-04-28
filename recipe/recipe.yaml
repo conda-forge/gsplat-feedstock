@@ -21,8 +21,11 @@ source:
 build:
   number: ${{ build_number }}
   script:
-    - export MAX_JOBS=1
-    - export TORCH_CUDA_ARCH_LIST="8.6"
+    - export MAX_JOBS=3	
+    - python -c "import torch; print(torch.cuda.get_arch_list())"
+    # The following should be all the archs listed above,
+    # including the +PTX modifier added to the most recent version.
+    - export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
     - export CUDA_HOME="$PREFIX"
     - $PYTHON -m pip install . -vv --no-build-isolation --no-deps
   skip:
