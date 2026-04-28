@@ -21,7 +21,7 @@ source:
 build:
   number: ${{ build_number }}
   script:
-    - export MAX_JOBS=3	
+    - export MAX_JOBS="3"	
     - python -c "import torch; print(torch.cuda.get_arch_list())"
     # The following should be all the archs listed above,
     # including the +PTX modifier added to the most recent version.
