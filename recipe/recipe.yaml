@@ -22,10 +22,14 @@ build:
   number: ${{ build_number }}
   script:
     - export MAX_JOBS="3"	
-    - python -c "import torch; print(torch.cuda.get_arch_list())"
-    # The following should be all the archs listed above,
+    # The following should match all the archs supported by conda-forge's pytorch,
     # including the +PTX modifier added to the most recent version.
-    - export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
+    # pixi exec --spec "pytorch=*=cuda12*" python -c "import torch; print(torch.cuda.get_arch_list())"
+    # pixi exec --spec "pytorch=*=cuda13*" python -c "import torch; print(torch.cuda.get_arch_list())"
+    - if: match(cuda_compiler_version, "12.*")
+      then: export TORCH_CUDA_ARCH_LIST="5.0;6.0;7.0;7.5;8.0;8.6;9.0;10.0;12.0+PTX"
+    - if: match(cuda_compiler_version, "13.*")
+      then: export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
     - export CUDA_HOME="$PREFIX"
     - $PYTHON -m pip install . -vv --no-build-isolation --no-deps
   skip:
