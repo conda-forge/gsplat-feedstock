@@ -83,9 +83,10 @@ tests:
       imports:
         - gsplat
       pip_check: true
-  - script:
-      - if: not aarch64
-        then:
+  # Skipping aarch64 since the nerfacc conda package does not support this architecture yet.
+  - if: not aarch64
+    then:
+      - script:
           # Install these test deps directly from PyPI since they are not yet packaged in conda-forge.
           - |
             python -m pip install \
@@ -94,23 +95,22 @@ tests:
           # These tests run only if a GPU is available.
           # Mainly used when the recipe is built locally since CI has no GPUs.
           - pytest tests/
-    files:
-      source:
-        - assets/
-        - tests/
-    requirements:
-      run:
-        - cupy
-        - imageio
-        - if: not aarch64
-          then: nerfacc
-        - pip
-        - pytest
-        - python
-        # lapjv (plas dependency) has no wheel for Python 3.12 and 3.13.
-        # Building the sdist requires a compiler.
-        # https://pypi.org/project/lapjv/
-        - ${{ compiler("cxx") }}
+        files:
+          source:
+            - assets/
+            - tests/
+        requirements:
+          run:
+            - cupy
+            - imageio
+            - nerfacc
+            - pip
+            - pytest
+            - python
+            # lapjv (plas dependency) has no wheel for Python 3.12 and 3.13.
+            # Building the sdist requires a compiler.
+            # https://pypi.org/project/lapjv/
+            - ${{ compiler("cxx") }}
 
 about:
   summary: CUDA accelerated rasterization of gaussian splatting
