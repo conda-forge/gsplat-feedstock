@@ -33,6 +33,9 @@ build:
     - export CUDA_HOME="$PREFIX"
     - $PYTHON -m pip install . -vv --no-build-isolation --no-deps
   skip:
+    # Upstream builds CUDA extensions. Keep no-CUDA, macOS, and Windows
+    # variants disabled until the PyTorch/CUDA compiler stack can build
+    # and test them here.
     - cuda_compiler_version == "None"
     - osx
     - win
