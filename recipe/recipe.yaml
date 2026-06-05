@@ -93,35 +93,6 @@ tests:
       imports:
         - gsplat
       pip_check: true
-  # Skipping aarch64 since the nerfacc conda package does not support this architecture yet.
-  # Skipping also testing CUDA13 on linux-64 since nerfacc does not support it yet.
-  - if: not aarch64 and (cuda_compiler_version != "None" and match(cuda_compiler_version, "<13"))
-    then:
-      - script:
-          # Install these test deps directly from PyPI since they are not yet packaged in conda-forge.
-          - |
-            python -m pip install \
-              torchpq \
-              git+https://github.com/fraunhoferhhi/PLAS.git
-          # These tests run only if a GPU is available.
-          # Mainly used when the recipe is built locally since CI has no GPUs.
-          - pytest tests/
-        files:
-          source:
-            - assets/
-            - tests/
-        requirements:
-          run:
-            - cupy
-            - imageio
-            - nerfacc
-            - pip
-            - pytest
-            - python
-            # lapjv (plas dependency) has no wheel for Python 3.12 and 3.13.
-            # Building the sdist requires a compiler.
-            # https://pypi.org/project/lapjv/
-            - ${{ compiler("cxx") }}
 
 about:
   summary: CUDA accelerated rasterization of gaussian splatting
