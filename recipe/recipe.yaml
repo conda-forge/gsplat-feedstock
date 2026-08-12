@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: gsplat
   version: "1.5.3"
-  build_number: 10
+  build_number: 11
 
 package:
   name: ${{ name|lower }}
@@ -17,28 +17,39 @@ source:
       - patches/0001-Remove-ninja-from-install-requirements.patch
       - patches/0002-Remove-vendored-glm-from-include-dirs.patch
       - patches/0003-Fix-pytest-on-python-313.patch
+      - patches/0004-Compile-CUDA-sources-as-CXX20.patch
 
 build:
   number: ${{ build_number }}
   script:
-    - export MAX_JOBS="3"
+    - if: unix
+      then: export MAX_JOBS="3"
+    - if: win
+      then: set "MAX_JOBS=3"
     # The following should match all the archs supported by conda-forge's pytorch,
     # including the +PTX modifier added to the most recent version.
     # pixi exec --spec "pytorch=*=cuda12*" python -c "import torch; print(torch.cuda.get_arch_list())"
     # pixi exec --spec "pytorch=*=cuda13*" python -c "import torch; print(torch.cuda.get_arch_list())"
-    - if: match(cuda_compiler_version, "12.*")
+    - if: unix and match(cuda_compiler_version, "12.*")
       then: export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6;9.0;10.0;12.0+PTX"
-    - if: match(cuda_compiler_version, "13.*")
+    - if: unix and match(cuda_compiler_version, "13.*")
       then: export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
-    - export CUDA_HOME="$PREFIX"
-    - $PYTHON -m pip install . -vv --no-build-isolation --no-deps
+    - if: win
+      then: set "TORCH_CUDA_ARCH_LIST=7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
+    - if: unix
+      then: export CUDA_HOME="$PREFIX"
+    - if: unix
+      then: $PYTHON -m pip install . -vv --no-build-isolation --no-deps
+    - if: win
+      then: python -m pip install . -vv --no-build-isolation --no-deps
   skip:
-    # Upstream builds CUDA extensions. Keep no-CUDA, macOS, and Windows
-    # variants disabled until the PyTorch/CUDA compiler stack can build
-    # and test them here.
+    # Upstream builds CUDA extensions, so no-CUDA and macOS variants remain
+    # unsupported.
     - cuda_compiler_version == "None"
     - osx
-    - win
+    # PyTorch 2.13's Windows CUDA 12 build is pinned to CUDA 12.8, while the
+    # conda-forge compiler matrix currently provides 12.9 and 13.0 here.
+    - win and cuda_compiler_version != "13.0"
   # During the build, the dependency scanner may report libcudart from
   # `targets/<arch>/lib` because conda-forge CUDA keeps the real libraries there
   # and symlinks them into `<prefix>/lib`. After packaging, the final ELF is
@@ -101,5 +112,6 @@ about:
   homepage: https://github.com/nerfstudio-project/gsplat
 
 extra:
+  feedstock-name: gsplat
   recipe-maintainers:
     - jeongseok-meta
