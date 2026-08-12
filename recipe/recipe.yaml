@@ -17,6 +17,7 @@ source:
       - patches/0001-Remove-ninja-from-install-requirements.patch
       - patches/0002-Remove-vendored-glm-from-include-dirs.patch
       - patches/0003-Fix-pytest-on-python-313.patch
+      - patches/0004-Compile-CUDA-sources-as-CXX20.patch
 
 build:
   number: ${{ build_number }}
