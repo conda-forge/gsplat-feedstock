@@ -36,6 +36,9 @@ build:
       then: export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
     - if: win
       then: set "TORCH_CUDA_ARCH_LIST=7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
+    # CUDA 13.4's CCCL headers reject MSVC's traditional preprocessor.
+    - if: win
+      then: set "NVCC_FLAGS=-Xcompiler /Zc:preprocessor"
     - if: unix
       then:
         - export CUDA_HOME="$PREFIX"
@@ -47,9 +50,8 @@ build:
     # unsupported.
     - cuda_compiler_version == "None"
     - osx
-    # PyTorch 2.13's Windows CUDA 12 build is pinned to CUDA 12.8, while the
-    # conda-forge compiler matrix currently provides 12.9 and 13.0 here.
-    - win and cuda_compiler_version != "13.0"
+    # conda-forge's PyTorch 2.14 has no Windows CUDA 12 build.
+    - win and match(cuda_compiler_version, "12.*")
   # During the build, the dependency scanner may report libcudart from
   # `targets/<arch>/lib` because conda-forge CUDA keeps the real libraries there
   # and symlinks them into `<prefix>/lib`. After packaging, the final ELF is
