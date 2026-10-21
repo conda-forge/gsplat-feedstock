@@ -18,6 +18,9 @@ source:
       - patches/0002-Remove-vendored-glm-from-include-dirs.patch
       - patches/0003-Fix-pytest-on-python-313.patch
       - patches/0004-Compile-CUDA-sources-as-CXX20.patch
+      # MSVC mangles these explicit instantiations differently from their
+      # declarations when only parameter const-ness differs, breaking the link.
+      - patches/0005-Match-explicit-instantiation-signatures.patch
 
 build:
   number: ${{ build_number }}

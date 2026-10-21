@@ -1,0 +1,36 @@
+--- gsplat/cuda/csrc/RasterizeToPixels2DGSBwd.cu
++++ gsplat/cuda/csrc/RasterizeToPixels2DGSBwd.cu
+@@ -829,12 +829,12 @@
+         const at::Tensor v_render_distort,                                     \
+         const at::Tensor v_render_median,                                      \
+         at::optional<at::Tensor> v_means2d_abs,                                \
+-        const at::Tensor v_means2d,                                            \
+-        const at::Tensor v_ray_transforms,                                     \
+-        const at::Tensor v_colors,                                             \
+-        const at::Tensor v_opacities,                                          \
+-        const at::Tensor v_normals,                                            \
+-        const at::Tensor v_densify                                             \
++        at::Tensor v_means2d,                                                  \
++        at::Tensor v_ray_transforms,                                           \
++        at::Tensor v_colors,                                                   \
++        at::Tensor v_opacities,                                                \
++        at::Tensor v_normals,                                                  \
++        at::Tensor v_densify                                                   \
+     );
+ 
+ __INS__(1)
+--- gsplat/cuda/csrc/RasterizeToPixelsFromWorld3DGSFwd.cu
++++ gsplat/cuda/csrc/RasterizeToPixelsFromWorld3DGSFwd.cu
+@@ -439,9 +439,9 @@
+         const FThetaCameraDistortionParameters ftheta_coeffs,                 \
+         const at::Tensor tile_offsets,                                         \
+         const at::Tensor flatten_ids,                                          \
+-        const at::Tensor renders,                                              \
+-        const at::Tensor alphas,                                               \
+-        const at::Tensor last_ids                                               \
++        at::Tensor renders,                                                    \
++        at::Tensor alphas,                                                     \
++        at::Tensor last_ids                                                     \
+     );                                                                        
+ 
+ __INS__(1)
