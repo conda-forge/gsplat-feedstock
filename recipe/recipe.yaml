@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: gsplat
   version: "1.5.3"
-  build_number: 11
+  build_number: 12
 
 package:
   name: ${{ name|lower }}
@@ -37,9 +37,9 @@ build:
     - if: win
       then: set "TORCH_CUDA_ARCH_LIST=7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
     - if: unix
-      then: export CUDA_HOME="$PREFIX"
-    - if: unix
-      then: $PYTHON -m pip install . -vv --no-build-isolation --no-deps
+      then:
+        - export CUDA_HOME="$PREFIX"
+        - $PYTHON -m pip install . -vv --no-build-isolation --no-deps
     - if: win
       then: python -m pip install . -vv --no-build-isolation --no-deps
   skip:
