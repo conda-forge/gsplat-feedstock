@@ -20,6 +20,7 @@ source:
       - patches/0004-Compile-CUDA-sources-as-CXX20.patch
       # MSVC mangles these explicit instantiations differently from their
       # declarations when only parameter const-ness differs, breaking the link.
+      # Remove once a gsplat release matches them to Rasterization.h.
       - patches/0005-Match-explicit-instantiation-signatures.patch
 
 build:
@@ -39,7 +40,8 @@ build:
       then: export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
     - if: win
       then: set "TORCH_CUDA_ARCH_LIST=7.5;8.0;8.6;9.0;10.0;11.0;12.0+PTX"
-    # CUDA 13.4's CCCL headers reject MSVC's traditional preprocessor.
+    # CUDA 13.4's CCCL headers reject MSVC's traditional preprocessor. Remove
+    # once gsplat's setup.py or torch's cpp_extension passes /Zc:preprocessor.
     - if: win
       then: set "NVCC_FLAGS=-Xcompiler /Zc:preprocessor"
     - if: unix
@@ -53,7 +55,8 @@ build:
     # unsupported.
     - cuda_compiler_version == "None"
     - osx
-    # conda-forge's PyTorch 2.14 has no Windows CUDA 12 build.
+    # conda-forge's PyTorch 2.14 has no Windows CUDA 12 build. Remove once it
+    # has one or CUDA 12 leaves the global matrix.
     - win and match(cuda_compiler_version, "12.*")
   # During the build, the dependency scanner may report libcudart from
   # `targets/<arch>/lib` because conda-forge CUDA keeps the real libraries there
